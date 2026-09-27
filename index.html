@@ -646,17 +646,6 @@
                 contact method during business hours.</p>
             </div>
 
-            <!-- B9: Error state -->
-            <div class="form-error-state" id="form-error-state" hidden>
-              <div class="form-error-icon">
-                <i class="ph ph-warning-circle"></i>
-              </div>
-              <h3>Something went wrong</h3>
-              <p>We could not send your request. Please try again or contact us directly on WhatsApp or by phone.</p>
-              <button class="btn-primary" id="form-retry-btn" type="button">
-                Try again
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -1028,9 +1017,7 @@
       // ==========================================
       const form = document.getElementById('quote-form');
       const formSuccess = document.getElementById('form-success');
-      const formErrorState = document.getElementById('form-error-state');
       const formResetBtn = document.getElementById('form-reset-btn');
-      const formRetryBtn = document.getElementById('form-retry-btn');
 
       function showError(fieldId, message) {
         const errorEl = document.getElementById('error-' + fieldId);
@@ -1161,12 +1148,10 @@
           try {
             await submitForm(formData);
             form.hidden = true;
-            formErrorState.hidden = true;
             formSuccess.hidden = false;
           } catch (err) {
-            form.hidden = true;
+            form.hidden = false;
             formSuccess.hidden = true;
-            formErrorState.hidden = false;
           } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalHTML;
@@ -1189,16 +1174,6 @@
           clearAllErrors();
           form.hidden = false;
           formSuccess.hidden = true;
-          formErrorState.hidden = true;
-        });
-      }
-
-      // Retry
-      if (formRetryBtn) {
-        formRetryBtn.addEventListener('click', function () {
-          form.hidden = false;
-          formSuccess.hidden = true;
-          formErrorState.hidden = true;
         });
       }
 
